@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # custom apps
     'webapp',
     'accounts',
+    'api',
     # lib apps
     'rest_framework',
     'rest_framework.authtoken',

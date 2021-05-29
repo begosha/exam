@@ -1,13 +1,8 @@
 from rest_framework.authtoken.models import Token
-
 from webapp.models import Image
-from webapp.forms import SearchForm, ImageForm, AlbumForm
+from webapp.forms import ImageForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import AnonymousUser
-from django.core.exceptions import PermissionDenied
-from django.http.response import HttpResponse
-from django.shortcuts import redirect
 from django.views.generic import (
     ListView,
     CreateView,
@@ -17,7 +12,6 @@ from django.views.generic import (
 )
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
-from django.utils.http import urlencode
 
 
 class IndexView(LoginRequiredMixin,ListView):
