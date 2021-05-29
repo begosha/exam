@@ -19,8 +19,40 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.edit import FormMixin
 import json
 from webapp.models import Album
-from webapp.forms import SearchForm
+from webapp.forms import AlbumForm
 
 class AlbumDetailView(DetailView):
     model = Album
     template_name = 'albums/album_view.html'
+
+class AlbumAddView(CreateView):
+    template_name = 'albums/album_add_view.html'
+    form_class = AlbumForm
+    model = Album
+
+
+    def form_valid(self, form):
+        image = form.save(commit=False)
+        image.author = self.request.user
+        image.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('images:index')
+
+class AlbumUpdateView(UpdateView):
+    form_class = AlbumForm
+    model = Album
+    template_name = 'albums/album_update_view.html'
+    context_object_name = 'album'
+
+    def get_success_url(self):
+        return reverse('images:album-detail', kwargs={'pk': self.kwargs.get('pk')})
+#
+# class ImageDeleteView( DeleteView):
+#     model = Image
+#     context_object_name = 'image'
+#     success_url = reverse_lazy('images:index')
+#
+#     def get(self, request, *args, **kwargs):
+#         return super().delete(request, *args, **kwargs)
