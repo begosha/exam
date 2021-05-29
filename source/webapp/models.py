@@ -59,6 +59,20 @@ class Album(models.Model):
         verbose_name = 'Album'
         verbose_name_plural = 'Albums'
 
+class TokenImage(models.Model):
+    image = models.OneToOneField(
+        'webapp.Image',
+        on_delete=models.CASCADE,
+        verbose_name='Token',
+        blank=True,
+        related_name='token'
+    )
+    token = models.CharField(
+        max_length=36,
+        blank=False,
+        null=False
+    )
+
 class FavoriteAlbum(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=False, related_name="userid")
     album = models.ForeignKey('webapp.Album', on_delete=models.CASCADE, related_name='fav_album', null=False)

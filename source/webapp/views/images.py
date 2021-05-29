@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.edit import FormMixin
 from rest_framework.authtoken.models import Token
-from webapp.models import Image, FavoriteImage, Album
+from webapp.models import Image, FavoriteImage, TokenImage
 from webapp.forms import ImageForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -17,6 +17,7 @@ from django.views.generic import (
 )
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
+from uuid import uuid4
 
 
 class IndexView(LoginRequiredMixin,ListView):
@@ -25,8 +26,6 @@ class IndexView(LoginRequiredMixin,ListView):
     model = Image
     context_object_name = 'images'
     ordering = ('-created_at',)
-    paginate_by = 5
-    paginate_orphans = 1
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,6 +70,7 @@ class ImageAddView(LoginRequiredMixin, CreateView):
     template_name = 'images/image_add_view.html'
     model = Image
     form_class = ImageForm
+
     def get_form_kwargs(self, *args, **kwargs):
         kwargs = super(ImageAddView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
@@ -80,6 +80,10 @@ class ImageAddView(LoginRequiredMixin, CreateView):
         image = form.save(commit=False)
         image.author = self.request.user
         image.save()
+        token_image = TokenImage()
+        token_image.image = image
+        token_image.token = uuid4().hex
+        token_image.save()
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -106,7 +110,7 @@ class ImageUpdateView(PermissionRequiredMixin,UpdateView):
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
     context_object_name = 'image'
-    success_url = reverse_lazy('images:index')
+    success_url = reverse_lazy('index')
     permission_required = 'webapp.delete_image'
 
     def has_permission(self):

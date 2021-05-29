@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Album, Image, FavoriteImage, FavoriteAlbum
+from .models import Album, Image, FavoriteImage, FavoriteAlbum, TokenImage
 
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -30,7 +30,15 @@ class FavoriteAlbumAdmin(admin.ModelAdmin):
     search_fields = ['user']
     fields = ['id', 'album', 'user']
     readonly_fields = ['id']
+
+class TokenImageAdmin(admin.ModelAdmin):
+    list_display = ['id', 'image', 'token']
+    list_filter = ['image']
+    search_fields = ['image']
+    fields = ['id', 'image', 'token']
+    readonly_fields = ['id']
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(FavoriteAlbum, FavoriteAlbumAdmin)
 admin.site.register(FavoriteImage, FavoriteImageAdmin)
+admin.site.register(TokenImage, TokenImageAdmin)

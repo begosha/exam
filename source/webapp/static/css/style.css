@@ -79,6 +79,11 @@ body{
 		text-transform: capitalize;
 		color: #424242;
 	}
+	.task-view img {
+	    height:170px
+        width:auto;/*maintain aspect ratio*/
+        max-width:500px;
+	}
 .task-form {
 	border: 3px solid #5bc0de;
 	text-align: center;

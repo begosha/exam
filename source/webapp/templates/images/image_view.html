@@ -13,7 +13,13 @@
             {% if perms.webapp.change_image or user.pk == image.author.pk %}
             <a class="btn btn-outline-info" href="{% url 'image-update' image.pk %}">Update</a>
             {% endif %}
-            <button class="btn btn-outline-info" type="button" id="generate" >Generate Link</button>
+            {% if user.pk == image.author.pk %}
+            <form action="{% url 'image-detail' image.pk %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline-info waves-effect px-3" id="image.token.token" type="submit" onclick="generate(event);">Generate Link</button>
+            </form>
+            <div class="gen" id="gen"></div>
+            {% endif %}
              {% if user.is_authenticated %}
 
             <form action="{% url 'image-detail' image.pk %}" method="post">
@@ -48,5 +54,6 @@
                 </div>
               </div>
             </div>
+
           </div>
 {% endblock %}

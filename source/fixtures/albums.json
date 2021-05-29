@@ -1,0 +1,68 @@
+[
+{
+  "model": "webapp.album",
+  "pk": 1,
+  "fields": {
+    "author": null,
+    "name": "Veggies",
+    "description": "Album for fav veggies lovers",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 3,
+  "fields": {
+    "author": 1,
+    "name": "Crush Zone",
+    "description": "Post your crushes",
+    "created_at": "2021-05-29",
+    "is_public": false
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 4,
+  "fields": {
+    "author": 1,
+    "name": "Crush Zone",
+    "description": "Post your crushes",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 5,
+  "fields": {
+    "author": 1,
+    "name": "Sarah Waynez",
+    "description": "My baby",
+    "created_at": "2021-05-29",
+    "is_public": false
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 6,
+  "fields": {
+    "author": 4,
+    "name": "Moderators",
+    "description": "Wooow",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 7,
+  "fields": {
+    "author": 4,
+    "name": "Moderators",
+    "description": "Wooow",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+}
+]
