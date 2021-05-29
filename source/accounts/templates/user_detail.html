@@ -26,7 +26,7 @@
             {% if perms.webapp.change_album %}
              <a class="btn btn-outline-info" href="{% url 'album-update' album.pk %}">Update</a>
             {% endif %}
-            <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            <a class="btn btn-outline-info" href="{% url 'album-detail' album.pk %}">Add to Favs</a>
             {% if perms.webapp.delete_album %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
             </button>
@@ -76,16 +76,16 @@
 <br>
 <h2 class="text-center clear" style="font-weight: 700; text-transform: uppercase;">Favorite Albums of {{ user_obj.username }}:</h2>
 {% for album in user_obj.userid.all %}
-{% if album.is_public or user.pk == album.author.pk %}
+{% if album.album.is_public or user.pk == album.album.author.pk %}
 <div class="task-view">
-            <h1>Album: {{ album.name }}</h1>
-            <h2>Description: {{ album.description }}</h2>
-            <p>Author: {{ album.author }}</p>
-        <p>Date: {{ album.created_at }}</p>
+            <h1>Album: {{ album.album.name }}</h1>
+            <h2>Description: {{ album.album.description }}</h2>
+            <p>Author: {{ album.album.author }}</p>
+        <p>Date: {{ album.album.created_at }}</p>
             {% if perms.webapp.change_album %}
-             <a class="btn btn-outline-info" href="{% url 'album-update' album.pk %}">Update</a>
+             <a class="btn btn-outline-info" href="{% url 'album-update' album.album.pk %}">Update</a>
             {% endif %}
-            <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            <a class="btn btn-outline-info" href="{% url 'album-detail' album.album.pk %}">Add to Favs</a>
             {% if perms.webapp.delete_album %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
             </button>
