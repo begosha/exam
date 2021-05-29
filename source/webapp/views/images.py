@@ -27,7 +27,7 @@ class IndexView(LoginRequiredMixin,ListView):
     ordering = ('-created_at',)
     paginate_by = 5
     paginate_orphans = 1
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -65,7 +65,7 @@ class ImageDetailView(LoginRequiredMixin,FormMixin, DetailView):
             fav.user = self.request.user
             fav.image = self.object
             fav.save()
-        return redirect('images:image-detail',self.kwargs.get('pk'))
+        return redirect('image-detail',self.kwargs.get('pk'))
 
 class ImageAddView(LoginRequiredMixin, CreateView):
     template_name = 'images/image_add_view.html'
@@ -83,7 +83,7 @@ class ImageAddView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('images:index')
+        return reverse('index')
 
 class ImageUpdateView(PermissionRequiredMixin,UpdateView):
     form_class = ImageForm
@@ -101,7 +101,7 @@ class ImageUpdateView(PermissionRequiredMixin,UpdateView):
         return self.get_object().author == self.request.user or super().has_permission()
 
     def get_success_url(self):
-        return reverse('images:image-detail', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse('image-detail', kwargs={'pk': self.kwargs.get('pk')})
 
 class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image

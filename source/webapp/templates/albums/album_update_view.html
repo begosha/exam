@@ -2,7 +2,7 @@
 {% block title %}Update the Image{% endblock %}
 {% block content %}
 
-<form action='{% url "images:album-update" album.id %}' method="POST">
+<form action='{% url "album-update" album.id %}' method="POST">
     {% include "albums/album_form.html" with button_text="Edit" %}
 </form>
 {% endblock %}

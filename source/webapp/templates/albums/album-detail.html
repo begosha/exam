@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% block title %}Image{% endblock %}
 {% block content %}
         <div class="task-view">
             <h1>Album: {{ album.name }}</h1>
@@ -7,12 +6,12 @@
             <p>Author: {{ album.author }}</p>
         <p>Date: {{ album.created_at }}</p>
             {% if perms.webapp.change_album or user.pk == album.author.pk %}
-             <a class="btn btn-outline-info" href="{% url 'images:album-update' album.pk %}">Update</a>
+             <a class="btn btn-outline-info" href="{% url 'album-update' album.pk %}">Update</a>
             {% endif %}
             {% if user.is_authenticated %}
-            <form action="{% url 'images:album-detail' image.pk %}" method="post">
+            <form action='{% url "album-detail" album.pk %}' method="post">
                 {% csrf_token %}
-                 {% if is_fav %}
+                {% if is_fav %}
                 <button class="btn btn-outline-info waves-effect px-3" type="submit" >Remove from Favs</button>
                 {% else %}
                 <button class="btn btn-outline-info waves-effect px-3" type="submit" >Add to Favs</button>
@@ -34,11 +33,10 @@
                     <p>
                         Album: <a href="#"> {{ image.album }}</a>
                     </p>
-                <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
+                <a href="{% url 'image-detail' image.pk %}">See more..</a>
                     <hr>
             </div>
         {% endfor %}
-        </div>
         <div class="modal fade" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
@@ -52,7 +50,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <a class="btn" href="{% url 'images:album-delete' album.pk %}">Delete</a>
+                  <a class="btn" href="{% url 'album-delete' album.pk %}">Delete</a>
                 </div>
               </div>
             </div>

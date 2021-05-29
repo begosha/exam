@@ -6,9 +6,9 @@
         <a href="{% url 'detail' image.author.pk %}">{{ image.author }}</a>
         <p>Date: {{ image.created_at }}</p>
         <p>
-            Album: <a href=" {% url 'images:album-detail' image.album.pk %} ">{{ image.album }}</a>
+            Album: <a href=" {% url 'album-detail' image.album.pk %} ">{{ image.album }}</a>
         </p>
-    <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
+    <a href="{% url 'image-detail' image.pk %}">See more..</a>
         <hr>
 </div>
 {% else %}

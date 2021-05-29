@@ -8,15 +8,15 @@
             <h2>Description: {{ image.description }}</h2>
             <a href="{% url 'detail' image.author.pk %}">{{ image.author }}</a>
         <p>Date: {{ image.created_at }}</p>
-            Album: <a href=" {% url 'images:album-detail' image.album.pk %} "> {{ image.album }}</a>
+            Album: <a href=" {% url 'album-detail' image.album.pk %} "> {{ image.album }}</a>
             </div>
             {% if perms.webapp.change_image or user.pk == image.author.pk %}
-            <a class="btn btn-outline-info" href="{% url 'images:image-update' image.pk %}">Update</a>
+            <a class="btn btn-outline-info" href="{% url 'image-update' image.pk %}">Update</a>
             {% endif %}
             <button class="btn btn-outline-info" type="button" id="generate" >Generate Link</button>
              {% if user.is_authenticated %}
 
-            <form action="{% url 'images:image-detail' image.pk %}" method="post">
+            <form action="{% url 'image-detail' image.pk %}" method="post">
                 {% csrf_token %}
                  {% if is_fav %}
                 <button class="btn btn-outline-info waves-effect px-3" type="submit" >Remove from Favs</button>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                  <a class="btn" href="{% url 'images:image-delete' image.pk %}">Delete</a>
+                  <a class="btn" href="{% url 'image-delete' image.pk %}">Delete</a>
                 </div>
               </div>
             </div>
