@@ -5,13 +5,11 @@ from django.views.generic import RedirectView
 from django.conf import settings
 
 
-HOMEPAGE_URL = 'gallery/'
+
+HOMEPAGE_URL = 'images/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url=HOMEPAGE_URL, permanent=True)),
+    path('images/', include('webapp.urls')),
+    path('', RedirectView.as_view(url=HOMEPAGE_URL, permanent=False))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]

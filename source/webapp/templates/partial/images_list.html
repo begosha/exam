@@ -1,0 +1,18 @@
+{% for image in images %}
+<div class="task">
+        <img src="../{{ image.image.url }}" width="250" height="250" alt="">
+        <h2>{{ image.description }}</h2>
+        <p>Author: {{ image.author }}</p>
+        <p>Date: {{ image.created_at }}</p>
+        <p>
+            Album: <a href="#"> {{ image.album }}</a>
+        </p>
+    <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
+        <hr>
+</div>
+{% endfor %}
+{% if is_paginated %}
+
+{% include 'partial/pagination.html' %}
+
+{% endif %}
