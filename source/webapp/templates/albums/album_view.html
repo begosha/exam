@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Image{% endblock %}
+{% block content %}
+        <div class="task-view">
+            <h1>Album: {{ album.name }}</h1>
+            <h2>Description: {{ album.description }}</h2>
+            <p>Author: {{ album.author }}</p>
+        <p>Date: {{ album.created_at }}</p>
+             <a class="btn btn-outline-info" href="#">Update</a>
+            <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
+            </button>
+            </div>
+
+        {% for image in album.image.all %}
+            <div class="task">
+            <img src="/{{ image.image.url }}" width="250" height="250" alt="">
+                    <h2>{{ image.description }}</h2>
+                    <p>Author: {{ image.author }}</p>
+                    <p>Date: {{ image.created_at }}</p>
+                    <p>
+                        Album: <a href="#"> {{ image.album }}</a>
+                    </p>
+                <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
+                    <hr>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="modal fade" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this task?</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <a class="btn" href="">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+{% endblock %}

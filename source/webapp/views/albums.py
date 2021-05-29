@@ -21,3 +21,6 @@ import json
 from webapp.models import Album
 from webapp.forms import SearchForm
 
+class AlbumDetailView(DetailView):
+    model = Album
+    template_name = 'albums/album_view.html'

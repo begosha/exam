@@ -5,7 +5,7 @@
         <p>Author: {{ image.author }}</p>
         <p>Date: {{ image.created_at }}</p>
         <p>
-            Album: <a href="#"> {{ image.album }}</a>
+            Album: <a href="{% url 'images:album-detail' image.album.pk %}"> {{ image.album }}</a>
         </p>
     <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
         <hr>
