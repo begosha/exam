@@ -5,16 +5,20 @@
             <h1>Image:</h1>
             <img src="/{{ image.image.url }}" alt="">
             <h2>Description: {{ image.description }}</h2>
-            <p>Author: {{ image.author }}</p>
+            <a href="{% url 'detail' image.author.pk %}">{{ image.author }}</a>
         <p>Date: {{ image.created_at }}</p>
         <p>
             Album: <a href="#"> {{ image.album }}</a>
         </p>
             </div>
+            {% if perms.webapp.change_image %}
             <a class="btn btn-outline-info" href="{% url 'images:image-update' image.pk %}">Update</a>
+            {% endif %}
             <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            {% if perms.webapp.delete_image %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
             </button>
+            {% endif %}
         </div>
         <div class="modal fade" id="deletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">

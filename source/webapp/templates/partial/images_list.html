@@ -2,7 +2,7 @@
 <div class="task">
         <img src="../{{ image.image.url }}" width="250" height="250" alt="">
         <h2>{{ image.description }}</h2>
-        <p>Author: {{ image.author }}</p>
+        <a href="{% url 'detail' image.author.pk %}">{{ image.author }}</a>
         <p>Date: {{ image.created_at }}</p>
         <p>
             Album: <a href="{% url 'images:album-detail' image.album.pk %}"> {{ image.album }}</a>

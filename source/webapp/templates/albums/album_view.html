@@ -6,10 +6,14 @@
             <h2>Description: {{ album.description }}</h2>
             <p>Author: {{ album.author }}</p>
         <p>Date: {{ album.created_at }}</p>
+            {% if perms.webapp.change_album %}
              <a class="btn btn-outline-info" href="{% url 'images:album-update' album.pk %}">Update</a>
+            {% endif %}
             <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            {% if perms.webapp.delete_album %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
             </button>
+            {% endif %}
             </div>
 
         {% for image in album.image.all %}

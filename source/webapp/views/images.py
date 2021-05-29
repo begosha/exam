@@ -18,7 +18,7 @@ from django.db.models import Q
 from django.utils.http import urlencode
 
 
-class IndexView(ListView):
+class IndexView(LoginRequiredMixin,ListView):
 
     template_name = 'images/index.html'
     model = Image
@@ -56,11 +56,11 @@ class IndexView(ListView):
             context['query'] = urlencode({'search_value': self.search_data})
         return context
 
-class ImageDetailView(DetailView):
+class ImageDetailView(LoginRequiredMixin, DetailView):
     model = Image
     template_name = 'images/image_view.html'
 
-class ImageAddView(CreateView):
+class ImageAddView(LoginRequiredMixin, CreateView):
     template_name = 'images/image_add_view.html'
     form_class = ImageForm
     model = Image
@@ -75,19 +75,27 @@ class ImageAddView(CreateView):
     def get_success_url(self):
         return reverse('images:index')
 
-class ImageUpdateView(UpdateView):
+class ImageUpdateView(PermissionRequiredMixin,UpdateView):
     form_class = ImageForm
     model = Image
     template_name = 'images/image_update_view.html'
     context_object_name = 'image'
+    permission_required = 'webapp.change_image'
+
+    def has_permission(self):
+        return self.get_object().author == self.request.user or super().has_permission()
 
     def get_success_url(self):
         return reverse('images:image-detail', kwargs={'pk': self.kwargs.get('pk')})
 
-class ImageDeleteView( DeleteView):
+class ImageDeleteView(PermissionRequiredMixin, DeleteView):
     model = Image
     context_object_name = 'image'
     success_url = reverse_lazy('images:index')
+    permission_required = 'webapp.delete_image'
+
+    def has_permission(self):
+        return self.get_object().author == self.request.user or super().has_permission()
 
     def get(self, request, *args, **kwargs):
         return super().delete(request, *args, **kwargs)

@@ -11,15 +11,44 @@
     <p>Name: {{ user_obj.first_name }}</p>
     <p>Last Name: {{ user_obj.last_name }}</p>
     <p>Summary: {{ user_obj.profile.summary }}</p>
-    <p>Github Profile: <a href="{{ user_obj.profile.github }}">{{ user_obj.profile.github }}</a></p>
-    <p>Почта: {{ user_obj.email }}</p>
-    {% if request.user == user_obj %}
-    <a class="btn btn-outline-info" href="{% url 'change' %}">Edit</a>
-    <a class="btn btn-outline-info" href="{% url 'password_change' %}">Change Password</a>
-    {% endif %}
+    <p>Github Profile: {{ user_obj.profile.github }}</p>
+    <p>Email: {{ user_obj.email }}</p>
 </div>
-<h2 class="text-center clear" style="font-weight: 700; text-transform: uppercase;">Projects of user:</h2>
+<h2 class="text-center clear" style="font-weight: 700; text-transform: uppercase;">Albums of {{ user_obj.username }}:</h2>
+{% for image in user_obj.album.all %}
+<div class="task-view">
+            <h1>Album: {{ album.name }}</h1>
+            <h2>Description: {{ album.description }}</h2>
+            <p>Author: {{ album.author }}</p>
+        <p>Date: {{ album.created_at }}</p>
+            {% if perms.webapp.change_album %}
+             <a class="btn btn-outline-info" href="{% url 'images:album-update' album.pk %}">Update</a>
+            {% endif %}
+            <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            {% if perms.webapp.delete_album %}
+            <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
+            </button>
+            {% endif %}
+            </div>
+{% empty %}
+                    <p>No albums yet.</p>
+{% endfor %}
+<h2 class="text-center clear" style="font-weight: 700; text-transform: uppercase;">Images of {{ user_obj.username }}:</h2>
+    {% for image in user_obj.image.all %}
+            <div class="task">
+            <img src="/{{ image.image.url }}" width="250" height="250" alt="">
+                    <h2>{{ image.description }}</h2>
+                    <p>Author: {{ image.author }}</p>
+                    <p>Date: {{ image.created_at }}</p>
+                    <p>
+                        Album: <a href="#"> {{ image.album }}</a>
+                    </p>
+                <a href="{% url 'images:image-detail' image.pk %}">See more..</a>
+                    <hr>
+            </div>
+        {% empty %}
+    <p>No images yet.</p>
+    {% endfor %}
 <br>
-<div class="project-tasks"> {% include 'partial/project_list.html' %}</div>
 
 {% endblock %}
