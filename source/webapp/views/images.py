@@ -83,3 +83,11 @@ class ImageUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('images:image-detail', kwargs={'pk': self.kwargs.get('pk')})
+
+class ImageDeleteView( DeleteView):
+    model = Image
+    context_object_name = 'image'
+    success_url = reverse_lazy('images:index')
+
+    def get(self, request, *args, **kwargs):
+        return super().delete(request, *args, **kwargs)
