@@ -8,8 +8,7 @@ class Image(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Author',
         related_name='image',
-        null=False,
-        blank=False
+        null=True
     )
 
     image = models.ImageField(
@@ -25,8 +24,8 @@ class Image(models.Model):
         verbose_name='Description'
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return self.user.username
+    album = models.ForeignKey('webapp.Album', on_delete=models.CASCADE, verbose_name='Album', related_name='image', blank=True)
+
 
     class Meta:
         db_table = 'images'
@@ -39,8 +38,7 @@ class Album(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Author',
         related_name='album',
-        null=False,
-        blank=False
+        null=True
     )
     name = models.CharField(
         null=False,
@@ -55,7 +53,7 @@ class Album(models.Model):
     created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username
+        return self.name
 
     class Meta:
         db_table = 'albums'
