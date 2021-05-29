@@ -1,3 +1,5 @@
+from rest_framework.authtoken.models import Token
+
 from webapp.models import Image
 from webapp.forms import SearchForm, ImageForm, AlbumForm
 from django.contrib.auth import get_user_model
@@ -33,7 +35,6 @@ class IndexView(LoginRequiredMixin,ListView):
             'images':Image.objects.filter(Q(is_public=True) | Q(author=self.request.user))
         }
         )
-        print(context)
         return context
 
 class ImageDetailView(LoginRequiredMixin, DetailView):
@@ -42,9 +43,12 @@ class ImageDetailView(LoginRequiredMixin, DetailView):
 
 class ImageAddView(LoginRequiredMixin, CreateView):
     template_name = 'images/image_add_view.html'
-    form_class = ImageForm
     model = Image
-
+    form_class = ImageForm
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(ImageAddView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         image = form.save(commit=False)
@@ -61,6 +65,11 @@ class ImageUpdateView(PermissionRequiredMixin,UpdateView):
     template_name = 'images/image_update_view.html'
     context_object_name = 'image'
     permission_required = 'webapp.change_image'
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(ImageUpdateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def has_permission(self):
         return self.get_object().author == self.request.user or super().has_permission()

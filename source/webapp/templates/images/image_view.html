@@ -14,6 +14,7 @@
             {% if perms.webapp.change_image or user.pk == image.author.pk %}
             <a class="btn btn-outline-info" href="{% url 'images:image-update' image.pk %}">Update</a>
             {% endif %}
+            <button class="btn btn-outline-info" type="button" onclick="generate(event);">Generate Link</button>
             <a class="btn btn-outline-info" href="#">Add to Favs</a>
             {% if perms.webapp.delete_image or user.pk == image.author.pk %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
@@ -38,4 +39,8 @@
               </div>
             </div>
           </div>
+
+<script>
+
+</script>
 {% endblock %}
