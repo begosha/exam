@@ -27,33 +27,13 @@ class IndexView(LoginRequiredMixin,ListView):
     paginate_by = 5
     paginate_orphans = 1
 
-    def get(self, request, **kwargs):
-        self.form = SearchForm(request.GET)
-        self.search_data = self.get_search_data()
-
-        return super(IndexView, self).get(request, **kwargs)
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        if self.search_data:
-            queryset = queryset.filter(
-                Q(title__icontains=self.search_data) |
-                Q(author__icontains=self.search_data) |
-                Q(content__icontains=self.search_data)
-            )
-        return queryset
-
-    def get_search_data(self):
-        if self.form.is_valid():
-            return self.form.cleaned_data['search_value']
-        return None
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['search_form'] = self.form
-        if self.search_data:
-            context['query'] = urlencode({'search_value': self.search_data})
+        context.update({
+            'images':Image.objects.filter(Q(is_public=True) | Q(author=self.request.user))
+        }
+        )
+        print(context)
         return context
 
 class ImageDetailView(LoginRequiredMixin, DetailView):
