@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import (
     ListView,
     CreateView,
@@ -8,13 +11,40 @@ from django.views.generic import (
     DeleteView
 )
 from django.urls import reverse, reverse_lazy
-from webapp.models import Album
+from webapp.models import Album, FavoriteAlbum
 from webapp.forms import AlbumForm
+from django.views.generic.edit import FormMixin
 
 
-class AlbumDetailView(LoginRequiredMixin, DetailView):
+class AlbumDetailView(LoginRequiredMixin, FormMixin, DetailView):
     model = Album
     template_name = 'albums/album_view.html'
+    form_class = None
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = DetailView.get_context_data(self, object=self.object)
+        try:
+            if self.object.fav_album.filter(user=self.request.user):
+                context['is_fav'] = True
+            else:
+                context['is_fav'] = False
+        except TypeError:
+            return self.render_to_response(context)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs) :
+        self.object = self.get_object()
+        if FavoriteAlbum.objects.filter(user=self.request.user):
+            fav = FavoriteAlbum.objects.filter(user=self.request.user)
+            fav.delete()
+        else:
+            fav = FavoriteAlbum()
+            fav.user = self.request.user
+            fav.album = self.object
+            fav.save()
+        return redirect('images:album-detail',self.kwargs.get('pk'))
 
 class AlbumAddView(LoginRequiredMixin, CreateView):
     template_name = 'albums/album_add_view.html'

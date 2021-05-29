@@ -63,7 +63,7 @@ class ImageDetailView(LoginRequiredMixin,FormMixin, DetailView):
         else:
             fav = FavoriteImage()
             fav.user = self.request.user
-            fav.image = self.objec
+            fav.image = self.object
             fav.save()
         return redirect('images:image-detail',self.kwargs.get('pk'))
 

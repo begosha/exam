@@ -8,9 +8,7 @@
             <h2>Description: {{ image.description }}</h2>
             <a href="{% url 'detail' image.author.pk %}">{{ image.author }}</a>
         <p>Date: {{ image.created_at }}</p>
-        <p>
-            Album: <a href="#"> {{ image.album }}</a>
-        </p>
+            Album: <a href=" {% url 'images:album-detail' image.album.pk %} "> {{ image.album }}</a>
             </div>
             {% if perms.webapp.change_image or user.pk == image.author.pk %}
             <a class="btn btn-outline-info" href="{% url 'images:image-update' image.pk %}">Update</a>

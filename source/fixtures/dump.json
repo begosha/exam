@@ -1,0 +1,97 @@
+[
+{
+  "model": "webapp.image",
+  "pk": 3,
+  "fields": {
+    "author": 1,
+    "image": "images/unnamed.jpg",
+    "description": "Best Soup",
+    "created_at": "2021-05-29T07:51:50.842Z",
+    "album": 1,
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.image",
+  "pk": 4,
+  "fields": {
+    "author": 1,
+    "image": "images/obama.jpg",
+    "description": "Best Soup",
+    "created_at": "2021-05-29T07:52:14.913Z",
+    "album": 1,
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.image",
+  "pk": 5,
+  "fields": {
+    "author": 4,
+    "image": "images/watermelon_8VfzNJy.jpg",
+    "description": "my food",
+    "created_at": "2021-05-29T09:20:44.817Z",
+    "album": 1,
+    "is_public": false
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 1,
+  "fields": {
+    "author": null,
+    "name": "Veggies",
+    "description": "Album for fav veggies lovers",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 3,
+  "fields": {
+    "author": 1,
+    "name": "Crush Zone",
+    "description": "Post your crushes",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.album",
+  "pk": 4,
+  "fields": {
+    "author": 1,
+    "name": "Crush Zone",
+    "description": "Post your crushes",
+    "created_at": "2021-05-29",
+    "is_public": true
+  }
+},
+{
+  "model": "webapp.favoriteimage",
+  "pk": 3,
+  "fields": {
+    "user": 5,
+    "image": 3
+  }
+},
+{
+  "model": "webapp.favoriteimage",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "image": 3
+  }
+},
+{
+  "model": "accounts.profile",
+  "pk": 1,
+  "fields": {
+    "user": 4,
+    "github": null,
+    "summary": null,
+    "avatar": ""
+  }
+}
+]

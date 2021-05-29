@@ -9,7 +9,16 @@
             {% if perms.webapp.change_album or user.pk == album.author.pk %}
              <a class="btn btn-outline-info" href="{% url 'images:album-update' album.pk %}">Update</a>
             {% endif %}
-            <a class="btn btn-outline-info" href="#">Add to Favs</a>
+            {% if user.is_authenticated %}
+            <form action="{% url 'images:album-detail' image.pk %}" method="post">
+                {% csrf_token %}
+                 {% if is_fav %}
+                <button class="btn btn-outline-info waves-effect px-3" type="submit" >Remove from Favs</button>
+                {% else %}
+                <button class="btn btn-outline-info waves-effect px-3" type="submit" >Add to Favs</button>
+                {% endif %}
+            </form>
+            {% endif %}
             {% if perms.webapp.delete_album or user.pk == album.author.pk %}
             <button type="button" class="btn btn-outline-info waves-effect px-3" data-toggle="modal" data-target="#deletion">Delete
             </button>
