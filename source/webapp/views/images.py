@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic.edit import FormMixin
 from rest_framework.authtoken.models import Token
-from webapp.models import Image, FavoriteImage
+from webapp.models import Image, FavoriteImage, Album
 from webapp.forms import ImageForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -27,7 +27,7 @@ class IndexView(LoginRequiredMixin,ListView):
     ordering = ('-created_at',)
     paginate_by = 5
     paginate_orphans = 1
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
