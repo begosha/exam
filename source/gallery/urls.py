@@ -11,5 +11,6 @@ HOMEPAGE_URL = 'images/'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('images/', include('webapp.urls')),
+    path('', include('accounts.urls')),
     path('', RedirectView.as_view(url=HOMEPAGE_URL, permanent=False))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
