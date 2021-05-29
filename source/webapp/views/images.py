@@ -1,5 +1,10 @@
+from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.generic.edit import FormMixin
 from rest_framework.authtoken.models import Token
-from webapp.models import Image
+from webapp.models import Image, FavoriteImage
 from webapp.forms import ImageForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -31,9 +36,36 @@ class IndexView(LoginRequiredMixin,ListView):
         )
         return context
 
-class ImageDetailView(LoginRequiredMixin, DetailView):
+class ImageDetailView(LoginRequiredMixin,FormMixin, DetailView):
     model = Image
     template_name = 'images/image_view.html'
+    form_class = None
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = DetailView.get_context_data(self, object=self.object)
+        context['token'] = self.request.COOKIES['csrftoken']
+        try:
+            if self.object.fav_image.filter(user=self.request.user):
+                context['is_fav'] = True
+            else:
+                context['is_fav'] = False
+        except TypeError:
+            return self.render_to_response(context)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs) :
+        self.object = self.get_object()
+        if FavoriteImage.objects.filter(user=self.request.user):
+            fav = FavoriteImage.objects.filter(user=self.request.user)
+            fav.delete()
+        else:
+            fav = FavoriteImage()
+            fav.user = self.request.user
+            fav.image = self.objec
+            fav.save()
+        return redirect('images:image-detail',self.kwargs.get('pk'))
 
 class ImageAddView(LoginRequiredMixin, CreateView):
     template_name = 'images/image_add_view.html'
